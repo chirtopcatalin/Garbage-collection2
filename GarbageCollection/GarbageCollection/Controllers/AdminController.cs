@@ -159,5 +159,38 @@ namespace GarbageCollection.Controllers
 
             ViewBag.Bins = new SelectList(_context.Bins, "Code", "Code");
         }
+
+        public IActionResult UnassignBinPage()
+        {
+            // Join BinCitizens with Citizen and Bin to display meaningful info
+            var assignments = _context.BinCitizens
+                .Join(_context.Citizens, bc => bc.IdCitizen, c => c.Id, (bc, c) => new
+                {
+                    bc.Id,
+                    bc.IdBin,
+                    CitizenName = c.FirstName + " " + c.LastName,
+                    bc.Address
+                })
+                .ToList();
+
+            return View("UnassignBin", assignments);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UnassignBin(int id)
+        {
+            var assignment = _context.BinCitizens.FirstOrDefault(bc => bc.Id == id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            _context.BinCitizens.Remove(assignment);
+            _context.SaveChanges();
+
+            return RedirectToAction("UnassignBinPage");
+        }
+
     }
 }

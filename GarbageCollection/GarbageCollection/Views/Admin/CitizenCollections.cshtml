@@ -15,16 +15,20 @@ else
     <table class="table table-bordered mt-4">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Bin Code</th>
                 <th>Collection Time</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var collection in Model)
             {
                 <tr>
+                    <td>@collection.Id</td>
                     <td>@collection.CodeBin</td>
                     <td>@collection.CollectionTime.ToString("g")</td>
+                    <td>@collection.address</td>
                 </tr>
             }
         </tbody>

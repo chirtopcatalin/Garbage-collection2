@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GarbageCollection.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace GarbageCollection.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public DbSet<CitizenModel> Citizens { get; set; }
         public DbSet<CollectionModel> Collections { get; set; }

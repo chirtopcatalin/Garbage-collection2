@@ -3,6 +3,7 @@ using System;
 using GarbageCollection.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GarbageCollection.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250501200907_IdentitySchemaFix")]
+    partial class IdentitySchemaFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -36,7 +39,7 @@ namespace GarbageCollection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BinCitizens", (string)null);
+                    b.ToTable("BinCitizens");
                 });
 
             modelBuilder.Entity("GarbageCollection.Models.BinModel", b =>
@@ -51,7 +54,7 @@ namespace GarbageCollection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bins", (string)null);
+                    b.ToTable("Bins");
                 });
 
             modelBuilder.Entity("GarbageCollection.Models.CitizenModel", b =>
@@ -78,7 +81,7 @@ namespace GarbageCollection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Citizens", (string)null);
+                    b.ToTable("Citizens");
                 });
 
             modelBuilder.Entity("GarbageCollection.Models.CollectionModel", b =>
@@ -112,7 +115,7 @@ namespace GarbageCollection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Collections", (string)null);
+                    b.ToTable("Collections");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

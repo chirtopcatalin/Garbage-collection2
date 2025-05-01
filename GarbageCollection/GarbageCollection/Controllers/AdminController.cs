@@ -194,20 +194,34 @@ namespace GarbageCollection.Controllers
         [HttpPost]
         [Route("api/addcollection")]
         [IgnoreAntiforgeryToken]
-        public IActionResult AddCollectionApi([FromBody] CollectionModel model)
+        public IActionResult AddCollectionApi([FromBody] List<CollectionModel> models)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var binExists = _context.Bins.Any(b => b.Code == model.CodeBin);
-            if (!binExists)
-                return NotFound($"Bin with code '{model.CodeBin}' does not exist.");
+            var binCodes = models.Select(m => m.CodeBin).Distinct();
+            var existingBins = _context.Bins
+                .Where(b => binCodes.Contains(b.Code))
+                .Select(b => b.Code)
+                .ToHashSet();
 
-            _context.Collections.Add(model);
-            _context.SaveChanges();
+            var validModels = models.Where(m => existingBins.Contains(m.CodeBin)).ToList();
+            var invalidModels = models.Where(m => !existingBins.Contains(m.CodeBin)).ToList();
 
-            return Ok(new { message = "Collection added successfully", model.Id });
+            if (validModels.Any())
+            {
+                _context.Collections.AddRange(validModels);
+                _context.SaveChanges();
+            }
+
+            return Ok(new
+            {
+                message = "processed collections",
+                addedCount = validModels.Count,
+                skippedCount = invalidModels.Count,
+                skippedBins = invalidModels.Select(m => m.CodeBin).Distinct(),
+                addedIds = validModels.Select(m => m.Id)
+            });
         }
-
     }
 }

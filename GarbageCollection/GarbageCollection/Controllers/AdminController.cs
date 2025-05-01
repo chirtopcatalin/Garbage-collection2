@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using YourNamespace.Data;
+using GarbageCollection.Data;
 
 namespace GarbageCollection.Controllers
 {

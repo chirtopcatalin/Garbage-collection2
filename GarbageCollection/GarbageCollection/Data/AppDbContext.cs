@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GarbageCollection.Models;
-namespace YourNamespace.Data
+
+namespace GarbageCollection.Data
 {
     public class AppDbContext : DbContext
     {

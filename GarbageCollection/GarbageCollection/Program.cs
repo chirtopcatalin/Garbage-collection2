@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using YourNamespace.Data;
+using GarbageCollection.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>

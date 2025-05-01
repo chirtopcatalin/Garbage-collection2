@@ -162,7 +162,6 @@ namespace GarbageCollection.Controllers
 
         public IActionResult UnassignBinPage()
         {
-            // Join BinCitizens with Citizen and Bin to display meaningful info
             var assignments = _context.BinCitizens
                 .Join(_context.Citizens, bc => bc.IdCitizen, c => c.Id, (bc, c) => new
                 {
@@ -190,6 +189,24 @@ namespace GarbageCollection.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("UnassignBinPage");
+        }
+
+        [HttpPost]
+        [Route("api/addcollection")]
+        [IgnoreAntiforgeryToken]
+        public IActionResult AddCollectionApi([FromBody] CollectionModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var binExists = _context.Bins.Any(b => b.Code == model.CodeBin);
+            if (!binExists)
+                return NotFound($"Bin with code '{model.CodeBin}' does not exist.");
+
+            _context.Collections.Add(model);
+            _context.SaveChanges();
+
+            return Ok(new { message = "Collection added successfully", model.Id });
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using GarbageCollection.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using YourNamespace.Data;
 
@@ -119,5 +120,44 @@ namespace GarbageCollection.Controllers
             return View("CitizenCollections", collections);
         }
 
+        public IActionResult AssignBinPage()
+        {
+            PopulateSelectLists();
+            return View("AssignBin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AssignBin(BinCitizenModel model)
+        {
+            var existingAssignment = _context.BinCitizens
+                                             .FirstOrDefault(bc => bc.IdBin == model.IdBin);
+
+            if (existingAssignment != null)
+            {
+                ModelState.AddModelError("IdBin", "This bin is already assigned to a citizen.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.BinCitizens.Add(model);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            PopulateSelectLists();
+            return View("AssignBin", model);
+        }
+
+
+        private void PopulateSelectLists()
+        {
+            ViewBag.Citizens = new SelectList(_context.Citizens.Select(c => new {
+                c.Id,
+                FullName = c.FirstName + " " + c.LastName
+            }), "Id", "FullName");
+
+            ViewBag.Bins = new SelectList(_context.Bins, "Code", "Code");
+        }
     }
 }

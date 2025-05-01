@@ -1,0 +1,32 @@
+﻿@model GarbageCollection.Models.BinCitizenModel
+
+@{
+    ViewBag.Title = "Assign Bin";
+}
+
+<h2>Assign Bin</h2>
+
+@using (Html.BeginForm("AssignBin", "Admin", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.IdCitizen)
+        @Html.DropDownListFor(m => m.IdCitizen, (SelectList)ViewBag.Citizens, "Select a Citizen", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.IdBin)
+        @Html.DropDownListFor(m => m.IdBin, (SelectList)ViewBag.Bins, "Select a Bin Code", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.IdBin, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address)
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Assign</button>
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+

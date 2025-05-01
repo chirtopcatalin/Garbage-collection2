@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<div class="container mt-4">
+    <div class="row text-center">
+
+        <div class="col-md-4 d-flex flex-column justify-content-between">
+            <a href="@Url.Action("AddCitizenPage", "Admin")" class="btn btn-success mb-3">Add Citizen</a>
+            <a href="@Url.Action("DeleteCitizenPage", "Admin")" class="btn btn-danger">Delete Citizen</a>
+        </div>
+
+        <div class="col-md-4 d-flex flex-column justify-content-between">
+            <a href="@Url.Action("AddBinPage", "Admin")" class="btn btn-success mb-3">Add New Bin</a>
+            <a href="@Url.Action("DeleteBinPage", "Admin")" class="btn btn-danger">Delete Bin</a>
+        </div>
+
+        <div class="col-md-4 d-flex flex-column justify-content-between">
+            <a href="@Url.Action("AssignBinPage", "Admin")" class="btn btn-success mb-3">Assign Bin</a>
+            <a href="@Url.Action("UnassignBinPage", "Admin")" class="btn btn-danger">Unassign Bin</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6 offset-md-3">
+        <h4>See All Collections for a Citizen</h4>
+        @using (Html.BeginForm("ViewCollectionsForCitizen", "Admin", FormMethod.Get))
+        {
+            <div class="input-group mb-3">
+                <input type="number" name="citizenId" class="form-control" placeholder="Enter Citizen ID" required />
+                <button class="btn btn-primary" type="submit">View Collections</button>
+            </div>
+        }
+    </div>
+</div>

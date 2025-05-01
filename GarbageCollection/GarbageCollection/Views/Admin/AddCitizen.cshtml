@@ -1,0 +1,28 @@
+﻿@model GarbageCollection.Models.CitizenModel
+
+@{
+    ViewBag.Title = "Add Citizen";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("AddCitizen", "Admin", FormMethod.Post, new { @class = "mt-4" }))
+{
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+    </div>
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+    </div>
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Cnp)
+        @Html.TextBoxFor(m => m.Cnp, new { @class = "form-control" })
+    </div>
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email" })
+    </div>
+    <button type="submit" class="btn btn-success">Add Citizen</button>
+}

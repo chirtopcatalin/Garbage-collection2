@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YourNamespace.Data;
 
@@ -10,9 +11,11 @@ using YourNamespace.Data;
 namespace GarbageCollection.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250501061855_ChangeBinCitizenMigration")]
+    partial class ChangeBinCitizenMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -86,6 +89,9 @@ namespace GarbageCollection.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("BinId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("CodeBin")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -95,7 +101,20 @@ namespace GarbageCollection.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BinId");
+
                     b.ToTable("Collections");
+                });
+
+            modelBuilder.Entity("GarbageCollection.Models.CollectionModel", b =>
+                {
+                    b.HasOne("GarbageCollection.Models.BinModel", "Bin")
+                        .WithMany()
+                        .HasForeignKey("BinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bin");
                 });
 #pragma warning restore 612, 618
         }

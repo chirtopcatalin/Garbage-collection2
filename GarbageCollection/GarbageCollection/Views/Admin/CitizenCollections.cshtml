@@ -1,0 +1,32 @@
+﻿@model IEnumerable<GarbageCollection.Models.CollectionModel>
+
+@{
+    ViewBag.Title = "Citizen Collections";
+}
+
+<h2>Collections for Citizen</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">No collections found for this citizen.</div>
+}
+else
+{
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Bin Code</th>
+                <th>Collection Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var collection in Model)
+            {
+                <tr>
+                    <td>@collection.CodeBin</td>
+                    <td>@collection.CollectionTime.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

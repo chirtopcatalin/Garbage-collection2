@@ -24,14 +24,27 @@ namespace GarbageCollection.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RouteMap()
+        public async Task<IActionResult> RouteMap(DateTime? date)
         {
-            const string CarNumber = "SB 42 ULB";
 
-            var points = await _context.Collections
-                .Where(c => c.car_number == CarNumber)
-                .OrderBy(c => c.Id)
-                .ToListAsync();
+            var query = _context.Collections.AsQueryable();
+
+            if (date.HasValue)
+            {
+                var start = date.Value.Date;
+                var end = start.AddDays(1);
+                query = query.Where(c =>
+                    c.CollectionTime >= start &&
+                    c.CollectionTime < end);
+            }
+            else
+            {
+                return View("Index");
+            }
+
+                var points = await query
+                    .OrderBy(c => c.Id)
+                    .ToListAsync();
 
             return View(points);
         }

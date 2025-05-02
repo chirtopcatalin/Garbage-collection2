@@ -1,11 +1,13 @@
-﻿@model GarbageCollection.Models.BinModel
-
-@{
+﻿@{
     ViewData["Title"] = "Routes";
 }
 
 <h2>Select Collection Date</h2>
 
 <form asp-controller="Route" asp-action="RouteMap" method="get">
+    <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" class="form-control" />
+    </div>
     <button type="submit" class="btn btn-primary mt-2">Show Route</button>
 </form>
